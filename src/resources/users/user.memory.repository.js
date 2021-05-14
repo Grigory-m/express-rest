@@ -9,7 +9,8 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const users = await readData(filePath);
-  return users.find(user => user.id === id);
+  const userById = users.find(user => user.id === id);
+  return userById;
 };
 
 const create = async (user) => {  
