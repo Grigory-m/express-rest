@@ -1,27 +1,24 @@
-const fs = require('fs');
+const fsp = require('fs/promises');
 
-const readData = async (fileName) => {
-  const filePath = `${__dirname}\\${fileName}`;
-  console.log(filePath)
+const readData = async (filePath) => {
   let data = [];
   try {
-    const stream = await fs.createReadStream(filePath, 'utf-8', { flags: 'w+'});
-    stream.setEncoding('utf-8');  
-    stream.on('readable', () => {
-      data = JSON.parse(stream.read());      
-    })  
-    
+    const list = await fsp.readFile(filePath, 'utf-8');
+    const parsedList = JSON.parse(list);
+    data = parsedList;
   } catch (error) {
-    console.error(error.message);
+    console.warn('There was an error!');
   }  
-  console.log(data)
   return data;
 }
 
-const writeData = async (data, fileName) => {
-  const filePath = `${__dirname}/${fileName}`;
-  const stream = await fs.createWriteStream(filePath, 'utf-8');
-  await stream.write(JSON.stringify(data))
+const writeData = async (data, filePath) => {
+  try {
+    const stringifyList = JSON.stringify(data);
+    await fsp.writeFile(filePath, stringifyList, 'utf-8');
+  } catch (error) {
+    console.warn('There was an error!');
+  }  
   return data;
 }
 
