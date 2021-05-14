@@ -1,4 +1,4 @@
-const { readData, writeData} = require('../../utils/data');
+const { readData, writeData } = require('../../utils/data');
 
 const filePath = `${__dirname}\\users.json`;
 
