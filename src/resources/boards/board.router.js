@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Board = require('./board.model');
+const Column = require('./column.model');
 const boardsService = require('./board.service');
 
 router.route('/').get(async (req, res) => {
@@ -15,8 +16,9 @@ router.route('/:id').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
-  const { body } = req;
-  const board = new Board(body);  
+  const { title, columns: col } = req.body;
+  const columns = col.map((item) => new Column(item));
+  const board = new Board({ title, columns });  
   await boardsService.create(board);
   res.status(201).json(board);
 });
