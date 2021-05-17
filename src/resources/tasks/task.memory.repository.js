@@ -31,7 +31,7 @@ const remove = async (id) => {
   const tasks = await readData(filePath);
   const index = tasks.findIndex(item => id === item.id);
   tasks.splice(index, 1);
-  await writeData(tasks, filePath);   
+  await writeData(tasks, filePath); 
 };
 
 module.exports = { getAll, getById, create, update, remove };

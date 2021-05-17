@@ -10,7 +10,7 @@ router.route('/').get(async (req, res) => {
 router.route('/:id').get(async (req, res) => {
   const user = await usersService.getById(req.params.id);
   res
-    .status(user ? 200 : 401)
+    .status(user ? 200 : 404)
     .json(user);
 });
 

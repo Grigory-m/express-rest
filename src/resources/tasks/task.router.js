@@ -8,10 +8,10 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/:id').get(async (req, res) => {
-  const board = await tasksService.getById(req.params.id);
+  const task = await tasksService.getById(req.baseUrl.split('/')[2], req.params.id);
   res
-    .status(board ? 200 : 401)
-    .json(board);
+    .status(task ? 200 : 404)
+    .json(task);
 });
 
 router.route('/').post(async (req, res) => {
@@ -21,18 +21,17 @@ router.route('/').post(async (req, res) => {
   res.status(201).json(task);
 });
 
-// router.route('/:id').put(async (req, res) => {
-//   const { body } = req;
-//   const board = new Board({ id: req.params.id, ...body});
-//   const newBoard = await boardsService.update(board);
-//   res.json(newBoard);
-// });
+router.route('/:id').put(async (req, res) => {
+  const { body } = req;
+  const newTask = await tasksService.update(body);
+  res.json(newTask);
+});
 
-// router.route('/:id').delete(async (req, res) => {
-//   await boardsService.remove(req.params.id);
-//   res
-//     .status(204)
-//     .json(null);
-// });
+router.route('/:id').delete(async (req, res) => {
+  await tasksService.remove(req.baseUrl.split('/')[2], req.params.id);
+  res
+    .status(204)
+    .json(null);
+});
 
 module.exports = router;
