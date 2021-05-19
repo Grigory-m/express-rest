@@ -9,9 +9,7 @@ router.route('/').get(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
   const user = await usersService.getById(req.params.id);
-  res
-    .status(user ? 200 : 404)
-    .json(user);
+  res.json(User.toResponse(user));
 });
 
 router.route('/').post(async (req, res) => {
@@ -31,7 +29,7 @@ router.route('/:id').put(async (req, res) => {
 router.route('/:id').delete(async (req, res) => {
   await usersService.remove(req.params.id);
   res
-    .status(204)
+    .status(200)
     .json(null);
 });
 

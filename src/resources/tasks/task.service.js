@@ -9,6 +9,7 @@ const getById = async (boardId, id) => {
   const tasksWithBoardId = tasks.filter(task => task.boardId === boardId);
   return tasksWithBoardId.find(task => task.id === id);
 };
+const getByUserId = async (userId) => tasksRepo.tasks.find((task => task.userId === userId))
 const create = async (boardId, task) => {
   const createdTask = task;
   createdTask.boardId = boardId;
@@ -23,4 +24,4 @@ const remove = async (boardId, id) => {
   await tasksRepo.remove(id);
 };
 
-module.exports = { getAll, getById, create, update, remove };
+module.exports = { getAll, getById, getByUserId, create, update, remove };

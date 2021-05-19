@@ -11,8 +11,7 @@ router.route('/').get(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
   const board = await boardsService.getById(req.params.id);
-  const tasks = await tasksService.getAll(req.params.id);
-  console.log(board, `Tasks: ${tasks}`)
+  await tasksService.getAll(req.params.id);
   res
     .status(board ? 200 : 404)
     .json(board);
