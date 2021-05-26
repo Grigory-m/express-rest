@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: users/user.memory.repository.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,64 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: users/user.memory.repository.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const users = [];
 
+/**
+ * Returns all users
+ * @returns {array} Array of users
+ */
+const getAll = async () => users;
 
-    <h3> </h3>
+/**
+ * Returns user by id
+ * @param {string} id 
+ * @returns {object} a required user
+ */
+const getById = async (id) => users.find(user => user.id === id);
 
+/**
+ * Creates new user
+ * @param {object} user 
+ * @returns void
+ */
+const create = async (user) => {  
+  users.push(user);
+};
 
+/**
+ * Returns updated user
+ * @param {object} user 
+ * @returns {object} an updated user
+ */
+const update = async (user) => {
+  const index = users.findIndex(item => user.id === item.id);
+  users[index] = user;
+  return user;
+};
 
+/**
+ * Deletes user by id
+ * @param {string} id 
+ * @returns void
+ */
+const remove = async (id) => {
+  const index = users.findIndex(item => id === item.id);
+  users.splice(index, 1);
+};
 
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = { getAll, getById, create, update, remove };
+</code></pre>
+        </article>
+    </section>
 
 
 

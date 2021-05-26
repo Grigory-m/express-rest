@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: tasks/task.memory.repository.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,62 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: tasks/task.memory.repository.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const tasks = [];
 
+/**
+ * Returns all tasks
+ * @returns {array} Array of tasks
+ */
+const getAll = async () => tasks;
 
-    <h3> </h3>
+/**
+ * Returns task by id
+ * @param {string} id 
+ * @returns {object} a required task
+ */
+const getById = async (id) => tasks.find(task => task.id === id);
 
+/**
+ * Creates new task
+ * @param {object} task 
+ * @returns void
+ */
+const create = async (task) => tasks.push(task);
 
+/**
+ * Returns updated task
+ * @param {object} task 
+ * @returns {object} an updated task
+ */
+const update = async (task) => {
+  const index = tasks.findIndex(item => task.id === item.id);
+  tasks[index] = task;
+  return task;
+};
 
+/**
+ * Deletes task by id
+ * @param {string} id 
+ * @returns void
+ */
+const remove = async (id) => {
+  const index = tasks.findIndex(item => id === item.id);
+  tasks.splice(index, 1);
+};
 
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = { getAll, getById, create, update, remove, tasks };
+</code></pre>
+        </article>
+    </section>
 
 
 
