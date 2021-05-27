@@ -7,7 +7,7 @@
   },
   "source": {
     "include": ["src"],
-    "includePattern": ".+\\.js(doc|x)?$",
+    "includePattern": ".+\\.ts(doc|x)?$",
     "excludePattern": "node_modules"
   },
   "sourceType": "module",

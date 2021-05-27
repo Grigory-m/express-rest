@@ -1,4 +1,5 @@
-const users = [];
+import User from './user.model';
+const users: User[] = [];
 
 /**
  * Returns all users
@@ -11,14 +12,14 @@ const getAll = async () => users;
  * @param {string} id 
  * @returns {object} a required user
  */
-const getById = async (id) => users.find(user => user.id === id);
+const getById = async (id: string | undefined) => users.find(user => user.id === id);
 
 /**
  * Creates new user
  * @param {object} user 
  * @returns void
  */
-const create = async (user) => {  
+const create = async (user: User) => {  
   users.push(user);
 };
 
@@ -27,7 +28,7 @@ const create = async (user) => {
  * @param {object} user 
  * @returns {object} an updated user
  */
-const update = async (user) => {
+const update = async (user: User) => {
   const index = users.findIndex(item => user.id === item.id);
   users[index] = user;
   return user;
@@ -38,9 +39,9 @@ const update = async (user) => {
  * @param {string} id 
  * @returns void
  */
-const remove = async (id) => {
+const remove = async (id: string | undefined) => {
   const index = users.findIndex(item => id === item.id);
   users.splice(index, 1);
 };
 
-module.exports = { getAll, getById, create, update, remove };
+export default { getAll, getById, create, update, remove };

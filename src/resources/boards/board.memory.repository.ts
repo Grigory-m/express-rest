@@ -1,4 +1,5 @@
-const boards = [];
+import Board from "./board.model";
+const boards: Board[] = [];
 
 /**
  * Returns all boards
@@ -11,22 +12,22 @@ const getAll = async () => boards;
  * @param {string} id  
  * @returns {object} a required board
  */
-const getById = async (id) => boards.find(board => board.id === id);
+const getById = async (id: string | undefined) => boards.find(board => board.id === id);
 
 /**
  * Creates new board
  * @param {object} board 
  * @returns void
  */
-const create = async (board) => boards.push(board);
+const create = async (board: Board) => boards.push(board);
 
 /**
  * Returns updated board
  * @param {object} board 
  * @returns {object} an updated board
  */
-const update = async (board) => {
-  const index = boards.findIndex(item => board.id === item.id);
+const update = async (board: Board) => {
+  const index = boards.findIndex((item: Board) => board.id === item.id);
   boards[index] = board;
   return board;
 };
@@ -36,9 +37,9 @@ const update = async (board) => {
  * @param {string} id 
  * @returns void
  */
-const remove = async (id) => {
-  const index = boards.findIndex(item => id === item.id);
+const remove = async (id: string | undefined) => {
+  const index = boards.findIndex((item: Board) => id === item.id);
   boards.splice(index, 1);
 };
 
-module.exports = { getAll, getById, create, update, remove };
+export default { getAll, getById, create, update, remove };

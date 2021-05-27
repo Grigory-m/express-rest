@@ -1,12 +1,12 @@
+import Task from "../tasks/task.model";
 const tasksRepo = require('./task.memory.repository');
-
 const { tasks } = tasksRepo;
 /**
  * Returns tasks by boardId
  * @param {string} boardId 
  * @returns {array} array of tasks
  */
-const getAll = async (boardId) => tasks.filter(task => task.boardId === boardId);
+const getAll = async (boardId: string | undefined) => tasks.filter((task: Task) => task.boardId === boardId);
 
 /**
  * Returns tasks by boardId and task id
@@ -14,9 +14,9 @@ const getAll = async (boardId) => tasks.filter(task => task.boardId === boardId)
  * @param {string} id 
  * @returns {object} tasks with boardId and task id
  */
-const getById = async (boardId, id) => {
-  const tasksWithBoardId = tasks.filter(task => task.boardId === boardId);
-  return tasksWithBoardId.find(task => task.id === id);
+const getById = async (boardId: string | undefined, id: string |undefined) => {
+  const tasksWithBoardId = tasks.filter((task: Task) => task.boardId === boardId);
+  return tasksWithBoardId.find((task: Task) => task.id === id);
 };
 
 /**
@@ -24,7 +24,7 @@ const getById = async (boardId, id) => {
  * @param {string} userId 
  * @returns {object} task with userId
  */
-const getByUserId = async (userId) => tasksRepo.tasks.find((task => task.userId === userId));
+const getByUserId = async (userId: string) => tasksRepo.tasks.find(((task: Task) => task.userId === userId));
 
 /**
  * Creates new task
@@ -32,10 +32,8 @@ const getByUserId = async (userId) => tasksRepo.tasks.find((task => task.userId 
  * @param {object} task 
  * @returns {object} new task
  */
-const create = async (boardId, task) => {
-  const createdTask = task;
-  createdTask.boardId = boardId;
-  const newTask = await tasksRepo.create(createdTask);
+const create = async (boardId: string | undefined, task: Task) => {
+  const newTask = await tasksRepo.create({...task, boardId: boardId});
   return newTask;
 };
 
@@ -44,7 +42,7 @@ const create = async (boardId, task) => {
  * @param {object} task 
  * @returns {object} an updated task
  */
-const update = async (task) => {
+const update = async (task: Task) => {
   const updatedTask = await tasksRepo.update(task);
   return updatedTask;
 };
@@ -55,8 +53,8 @@ const update = async (task) => {
  * @param {string} id 
  * @returns void
  */
-const remove = async (boardId, id) => {
+const remove = async (id: string | undefined) => {
   await tasksRepo.remove(id);
 };
 
-module.exports = { getAll, getById, getByUserId, create, update, remove };
+export default { getAll, getById, getByUserId, create, update, remove };

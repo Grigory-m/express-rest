@@ -1,5 +1,7 @@
-const usersRepo = require('./user.memory.repository');
-const tasksService = require('../tasks/task.memory.repository');
+import User from './user.model';
+import Task from '../tasks/task.model';
+import usersRepo from './user.memory.repository';
+import tasksService from '../tasks/task.memory.repository';
 
 /**
  * Returns all users
@@ -12,30 +14,30 @@ const getAll = () => usersRepo.getAll();
  * @param {string} id 
  * @returns {object} a required user
  */
-const getById = (id) => usersRepo.getById(id);
+const getById = (id: string | undefined) => usersRepo.getById(id);
 
 /**
  * Creates new user
  * @param {object} user 
  * @returns void
  */
-const create = (user) => usersRepo.create(user);
+const create = (user: User) => usersRepo.create(user);
 
 /**
  * Returns updated user
  * @param {object} user 
  * @returns {object} an updated user
  */
-const update = (user) => usersRepo.update(user);
+const update = (user: User): object => usersRepo.update(user);
 
 /**
  * Deletes user by id
  * @param {string} id 
  * @returns void
  */
-const remove = async (id) => {
+const remove = async (id: string | undefined) => {
   usersRepo.remove(id);
-  tasksService.tasks.forEach(item => {
+  tasksService.tasks.forEach((item: Task) => {
     if (item.userId === id) {
       const task = {...item, userId: null};
       tasksService.update(task);  
@@ -43,4 +45,4 @@ const remove = async (id) => {
   });
 };
 
-module.exports = { getAll, getById, create, update, remove };
+export default { getAll, getById, create, update, remove };
