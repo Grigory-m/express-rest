@@ -1,4 +1,5 @@
 import User from './user.model';
+
 const users: User[] = [];
 
 /**

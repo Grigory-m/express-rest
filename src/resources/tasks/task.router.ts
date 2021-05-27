@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import Task from './task.model';
 import tasksService from './task.service';
+
 const router = express.Router();
 
 router.route('/').get(async (req: Request, res: Response) => {
@@ -9,7 +10,7 @@ router.route('/').get(async (req: Request, res: Response) => {
 });
 
 router.route('/:id').get(async (req: Request, res: Response) => {
-  const task = await tasksService.getById(req.baseUrl.split('/')[2], req.params['id']);
+  const task = await tasksService.getById(req.baseUrl.split('/')[2], req.params.id);
   res
     .status(task ? 200 : 404)
     .json(task);
@@ -29,7 +30,7 @@ router.route('/:id').put(async (req: Request, res: Response) => {
 });
 
 router.route('/:id').delete(async (req: Request, res: Response) => {
-  await tasksService.remove(req.params['id']);
+  await tasksService.remove(req.params.id);
   res
     .status(204)
     .json(null);

@@ -2,9 +2,13 @@ import { v4 } from 'uuid';
 
 class User {
   id: string;
+
   name: string;
+
   login: string;
+
   password: string;
+
   constructor({
     id = v4(),
     name = 'USER',
@@ -22,7 +26,7 @@ class User {
       const { id, name, login } = user;
       return { id, name, login };
     }
-    return;
+    
   }
 }
 

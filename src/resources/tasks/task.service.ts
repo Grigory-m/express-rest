@@ -1,5 +1,6 @@
-import Task from "../tasks/task.model";
-const tasksRepo = require('./task.memory.repository');
+import Task from "./task.model";
+import tasksRepo from './task.memory.repository';
+
 const { tasks } = tasksRepo;
 /**
  * Returns tasks by boardId
@@ -33,7 +34,7 @@ const getByUserId = async (userId: string) => tasksRepo.tasks.find(((task: Task)
  * @returns {object} new task
  */
 const create = async (boardId: string | undefined, task: Task) => {
-  const newTask = await tasksRepo.create({...task, boardId: boardId});
+  const newTask = await tasksRepo.create({...task, boardId});
   return newTask;
 };
 

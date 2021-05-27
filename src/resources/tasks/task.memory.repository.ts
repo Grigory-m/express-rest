@@ -1,4 +1,5 @@
-import Task from "../tasks/task.model";
+import Task from "./task.model";
+
 const tasks: Task[] = [];
 
 /**
@@ -37,7 +38,7 @@ const update = async (task: Task) => {
  * @param {string} id 
  * @returns void
  */
-const remove = async (id: string) => {
+const remove = async (id: string | undefined) => {
   const index = tasks.findIndex((item: Task) => id === item.id);
   tasks.splice(index, 1);
 };

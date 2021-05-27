@@ -20,10 +20,16 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
+  
   "exclude": [
     "node_modules/"
   ],
   "include": [
     "./src/**/*.ts"
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }
