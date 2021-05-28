@@ -33,9 +33,9 @@ const getByUserId = async (userId: string): Promise<Task | undefined> => tasksRe
  * @param {object} task
  * @returns {object} new task
  */
-const create = async (boardId: string | undefined, task: Task): Promise<void> => {
-  await tasksRepo.create({ ...task, boardId });  
-};
+const create = async (task: Task): Promise<void> => {
+  await tasksRepo.create(task);
+}
 
 /**
  * Update task

@@ -11,7 +11,7 @@ class Task {
 
   userId: string | null;
 
-  boardId: string | undefined;
+  boardId: string;
 
   columnId: string;
 
