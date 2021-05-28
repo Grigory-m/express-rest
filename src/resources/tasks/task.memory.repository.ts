@@ -1,4 +1,4 @@
-import Task from "./task.model";
+import Task from './task.model';
 
 const tasks: Task[] = [];
 
@@ -6,28 +6,30 @@ const tasks: Task[] = [];
  * Returns all tasks
  * @returns {array} Array of tasks
  */
-const getAll = async () => tasks;
+const getAll = async (): Promise<Task[]> => tasks;
 
 /**
  * Returns task by id
- * @param {string} id 
+ * @param {string} id
  * @returns {object} a required task
  */
-const getById = async (id:string) => tasks.find((task: Task) => task.id === id);
+const getById = async (id:string): Promise<Task | undefined> => tasks.find((task: Task) => task.id === id);
 
 /**
  * Creates new task
- * @param {object} task 
+ * @param {object} task
  * @returns void
  */
-const create = async (task: Task) => tasks.push(task);
+const create = async (task: Task): Promise<void> => {
+  tasks.push(task);
+}
 
 /**
  * Returns updated task
- * @param {object} task 
+ * @param {object} task
  * @returns {object} an updated task
  */
-const update = async (task: Task) => {
+const update = async (task: Task): Promise<Task> => {
   const index = tasks.findIndex((item: Task) => task.id === item.id);
   tasks[index] = task;
   return task;
@@ -35,12 +37,14 @@ const update = async (task: Task) => {
 
 /**
  * Deletes task by id
- * @param {string} id 
+ * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined) => {
+const remove = async (id: string | undefined): Promise<void> => {
   const index = tasks.findIndex((item: Task) => id === item.id);
   tasks.splice(index, 1);
 };
 
-export default { getAll, getById, create, update, remove, tasks };
+export default {
+  getAll, getById, create, update, remove, tasks,
+};

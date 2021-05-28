@@ -10,7 +10,7 @@ class Board {
   constructor({
     id = v4(),
     title = 'BOARD',
-    columns = []    
+    columns = [],
   } = {}) {
     this.id = id;
     this.title = title;

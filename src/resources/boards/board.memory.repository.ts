@@ -1,4 +1,4 @@
-import Board from "./board.model";
+import Board from './board.model';
 
 const boards: Board[] = [];
 
@@ -6,28 +6,28 @@ const boards: Board[] = [];
  * Returns all boards
  * @returns {array} Array of boards
  */
-const getAll = async () => boards;
+const getAll = async (): Promise<Board[]> => boards;
 
 /**
  * Returns board by id
- * @param {string} id  
+ * @param {string} id
  * @returns {object} a required board
  */
-const getById = async (id: string | undefined) => boards.find(board => board.id === id);
+const getById = async (id: string | undefined): Promise<Board | undefined> => boards.find((board) => board.id === id);
 
 /**
  * Creates new board
- * @param {object} board 
+ * @param {object} board
  * @returns void
  */
-const create = async (board: Board) => boards.push(board);
+const create = async (board: Board): Promise<number> => boards.push(board);
 
 /**
  * Returns updated board
- * @param {object} board 
+ * @param {object} board
  * @returns {object} an updated board
  */
-const update = async (board: Board) => {
+const update = async (board: Board): Promise<Board> => {
   const index = boards.findIndex((item: Board) => board.id === item.id);
   boards[index] = board;
   return board;
@@ -35,12 +35,14 @@ const update = async (board: Board) => {
 
 /**
  * Deletes board by id
- * @param {string} id 
+ * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined) => {
+const remove = async (id: string | undefined): Promise<void> => {
   const index = boards.findIndex((item: Board) => id === item.id);
   boards.splice(index, 1);
 };
 
-export default { getAll, getById, create, update, remove };
+export default {
+  getAll, getById, create, update, remove,
+};

@@ -22,7 +22,7 @@ class Task {
     description = '',
     userId = '',
     boardId = '',
-    columnId = ''    
+    columnId = '',
   } = {}) {
     this.id = id;
     this.title = title;

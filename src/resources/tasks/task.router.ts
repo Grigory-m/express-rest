@@ -10,14 +10,15 @@ router.route('/').get(async (req: Request, res: Response) => {
 });
 
 router.route('/:id').get(async (req: Request, res: Response) => {
-  const task = await tasksService.getById(req.baseUrl.split('/')[2], req.params.id);
+  const { id } = req.params;
+  const task = await tasksService.getById(req.baseUrl.split('/')[2], id);
   res
     .status(task ? 200 : 404)
     .json(task);
 });
 
 router.route('/').post(async (req: Request, res: Response) => {
-  const { body } = req;  
+  const { body } = req;
   const task = new Task(body);
   await tasksService.create(req.baseUrl.split('/')[2], task);
   res.status(201).json(task);
@@ -30,7 +31,8 @@ router.route('/:id').put(async (req: Request, res: Response) => {
 });
 
 router.route('/:id').delete(async (req: Request, res: Response) => {
-  await tasksService.remove(req.params.id);
+  const { id } = req.params;
+  await tasksService.remove(id);
   res
     .status(204)
     .json(null);

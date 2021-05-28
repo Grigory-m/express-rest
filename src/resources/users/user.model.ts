@@ -13,7 +13,7 @@ class User {
     id = v4(),
     name = 'USER',
     login = 'user',
-    password = 'P@55w0rd'
+    password = 'P@55w0rd',
   } = {}) {
     this.id = id;
     this.name = name;
@@ -21,12 +21,12 @@ class User {
     this.password = password;
   }
 
-  static toResponse(user: User | undefined) {
+  static toResponse(user: User | undefined): { id: string, name: string, login: string } | void {
     if (user) {
       const { id, name, login } = user;
       return { id, name, login };
     }
-    
+    return undefined;
   }
 }
 
