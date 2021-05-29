@@ -5,28 +5,28 @@ import tasksService from '../tasks/task.memory.repository';
 
 /**
  * Returns all users
- * @returns {array} Array of users
+ * @returns {Object[]} Array of users
  */
 const getAll = async (): Promise<User[]>  => usersRepo.getAll();
 
 /**
  * Returns user by id
  * @param {string} id
- * @returns {object} a required user
+ * @returns {Object} a required user
  */
 const getById = async (id: string | undefined): Promise<User | undefined> => usersRepo.getById(id);
 
 /**
  * Creates new user
- * @param {object} user
+ * @param {Object} user
  * @returns void
  */
 const create = async (user: User): Promise<number> => usersRepo.create(user);
 
 /**
  * Returns updated user
- * @param {object} user
- * @returns {object} an updated user
+ * @param {Object} user
+ * @returns {Object} an updated user
  */
 const update = async (user: User): Promise<User> => usersRepo.update(user);
 

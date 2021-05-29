@@ -4,28 +4,28 @@ const users: User[] = [];
 
 /**
  * Returns all users
- * @returns {array} Array of users
+ * @returns {Object[]} Array of users
  */
 const getAll = async (): Promise<User[]> => users;
 
 /**
  * Returns user by id
  * @param {string} id
- * @returns {object} a required user
+ * @returns {Object} a required user
  */
 const getById = async (id: string | undefined): Promise<User | undefined> => users.find((user) => user.id === id);
 
 /**
  * Creates new user
- * @param {object} user
+ * @param {Object} user
  * @returns void
  */
 const create = async (user: User): Promise<number> => users.push(user);
 
 /**
  * Returns updated user
- * @param {object} user
- * @returns {object} an updated user
+ * @param {Object} user
+ * @returns {Object} an updated user
  */
 const update = async (user: User): Promise<User> => {
   const index = users.findIndex((item) => user.id === item.id);

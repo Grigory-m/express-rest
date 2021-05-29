@@ -4,20 +4,20 @@ const tasks: Task[] = [];
 
 /**
  * Returns all tasks
- * @returns {array} Array of tasks
+ * @returns {Object[]} Array of tasks
  */
 const getAll = async (): Promise<Task[]> => tasks;
 
 /**
  * Returns task by id
  * @param {string} id
- * @returns {object} a required task
+ * @returns {Object} a required task
  */
 const getById = async (id:string): Promise<Task | undefined> => tasks.find((task: Task) => task.id === id);
 
 /**
  * Creates new task
- * @param {object} task
+ * @param {Object} task
  * @returns void
  */
 const create = async (task: Task): Promise<void> => {
@@ -26,8 +26,8 @@ const create = async (task: Task): Promise<void> => {
 
 /**
  * Returns updated task
- * @param {object} task
- * @returns {object} an updated task
+ * @param {Object} task
+ * @returns {Object} an updated task
  */
 const update = async (task: Task): Promise<Task> => {
   const index = tasks.findIndex((item: Task) => task.id === item.id);

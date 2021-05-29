@@ -5,28 +5,28 @@ import tasksService from '../tasks/task.service';
 
 /**
  * Returns all boards
- * @returns {array} Array of boards
+ * @returns {Object[]} Array of boards
  */
 const getAll = (): Promise<Board[]> => boardsRepo.getAll();
 
 /**
  * Returns board by id
  * @param {string} id
- * @returns {object} a required board
+ * @returns {Object} a required board
  */
 const getById = (id: string | undefined): Promise<Board | undefined> => boardsRepo.getById(id);
 
 /**
  * Creates new board
- * @param {object} board
+ * @param {Object} board
  * @returns void
  */
 const create = (board: Board): Promise<number> => boardsRepo.create(board);
 
 /**
  * Returns updated board
- * @param {object} board
- * @returns {object} an updated board
+ * @param {Object} board
+ * @returns {Object} an updated board
  */
 const update = (board: Board): Promise<Board> => boardsRepo.update(board);
 

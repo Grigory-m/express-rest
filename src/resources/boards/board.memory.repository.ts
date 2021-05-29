@@ -4,28 +4,28 @@ const boards: Board[] = [];
 
 /**
  * Returns all boards
- * @returns {array} Array of boards
+ * @returns {Object[]} Array of boards
  */
 const getAll = async (): Promise<Board[]> => boards;
 
 /**
  * Returns board by id
  * @param {string} id
- * @returns {object} a required board
+ * @returns {Object} a required board
  */
 const getById = async (id: string | undefined): Promise<Board | undefined> => boards.find((board) => board.id === id);
 
 /**
  * Creates new board
- * @param {object} board
+ * @param {Object} board
  * @returns void
  */
 const create = async (board: Board): Promise<number> => boards.push(board);
 
 /**
  * Returns updated board
- * @param {object} board
- * @returns {object} an updated board
+ * @param {Object} board
+ * @returns {Object} an updated board
  */
 const update = async (board: Board): Promise<Board> => {
   const index = boards.findIndex((item: Board) => board.id === item.id);
