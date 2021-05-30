@@ -8,6 +8,7 @@
   "description": "REST service starter for RS School",
   "main": "src/server.ts",
   "scripts": {
+    "build": "tsc -w",
     "start": "cross-env nodemon --watch './src/**/*.ts' --exec ts-node ./src/server.ts",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
