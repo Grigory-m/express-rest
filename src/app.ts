@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
+import onFinished from 'on-finished';
 import boardRouter from './resources/boards/board.router';
 import userRouter from './resources/users/user.router';
 import taskRouter from './resources/tasks/task.router';
@@ -19,6 +20,22 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
     return;
   }
   next();
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const { url, query, body } = req;
+  const start = Date.now();
+  next();
+
+  onFinished(req, () => {    
+    console.log(`${url} ${query} ${body}`);
+  });
+
+  onFinished(res, (_, res) => {
+    const ms = Date.now() - start;
+    const { statusCode } = res;
+    console.log(`${statusCode} ms: ${ms}`);
+  })
 });
 
 app.use('/boards', boardRouter);
