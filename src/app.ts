@@ -3,6 +3,7 @@ import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
 import onFinished from 'on-finished';
+import logger from './common/logger';
 import boardRouter from './resources/boards/board.router';
 import userRouter from './resources/users/user.router';
 import taskRouter from './resources/tasks/task.router';
@@ -28,13 +29,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 
   onFinished(req, () => {    
-    console.log(`${url} ${query} ${body}`);
+    logger.info(`Request: url: ${url}, query: ${JSON.stringify(query)}, body: ${JSON.stringify(body)}`);
   });
 
-  onFinished(res, (_, res) => {
+  onFinished(res, () => {
     const ms = Date.now() - start;
     const { statusCode } = res;
-    console.log(`${statusCode} ms: ${ms}`);
+    logger.info(`Response: status: ${statusCode} time: ${ms}ms`);
   })
 });
 
