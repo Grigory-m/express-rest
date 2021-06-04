@@ -1,10 +1,11 @@
 import { createLogger, transports, format } from 'winston';
+
 const { combine, timestamp, json } = format;
 
 const logger = createLogger({
   transports: [
       new transports.File({
-        filename: './log/requests.log',
+        filename: './log/info.log',
         level: 'info',
         format: combine(
           timestamp(),

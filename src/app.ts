@@ -3,9 +3,9 @@ import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
 import onFinished from 'on-finished';
-import logger from './common/logger';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
-import HttpException from './common/exception';
+import logger from './common/logger';
+import HttpException from './common/errors/exception';
 import boardRouter from './resources/boards/board.router';
 import userRouter from './resources/users/user.router';
 import taskRouter from './resources/tasks/task.router';
@@ -13,6 +13,20 @@ import taskRouter from './resources/tasks/task.router';
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 const { INTERNAL_SERVER_ERROR } = StatusCodes;
+
+process.on('uncaughtException', (err) => {
+  logger.error(`${err.message}`);   
+  logger.on('finish', () => {
+    process.exit(1);  
+  });    
+});
+
+process.on('unhandledRejection', (reason) => {
+  logger.error(`${reason}`);   
+  logger.on('finish', () => {
+    process.exit(1);  
+  });    
+});
 
 app.use(express.json());
 
@@ -22,7 +36,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   if (req.originalUrl === '/') {
     res.send('Service is running!');
     return;
-  }  
+  }    
   next();
 });
 
