@@ -60,12 +60,11 @@ app.use('/boards', boardRouter);
 app.use('/users', userRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
 
-app.use((err: HttpException, _: Request, res: Response, next: NextFunction) => {
+app.use((err: HttpException, _: Request, res: Response) => {
   const status = err.status || INTERNAL_SERVER_ERROR;
   const message = err.message || getReasonPhrase(INTERNAL_SERVER_ERROR);
   logger.error(`Status: ${status}, message: ${message}`);
-  res.status(status).send(message);
-  next();
+  res.status(status).send(message); 
 })
 
 export default app;
