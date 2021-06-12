@@ -65,6 +65,7 @@ app.use((err: HttpException, _req: Request, res: Response, _next: NextFunction) 
   const message = err.message || getReasonPhrase(INTERNAL_SERVER_ERROR);
   logger.error(`Status: ${status}, message: ${message}`);
   res.status(status).send(message); 
+  _next();
 })
 
 export default app;

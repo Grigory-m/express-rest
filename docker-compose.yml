@@ -2,17 +2,31 @@ version: '3'
 services:
   node:
     build: .
+    networks: 
+      - backend
+    restart: on-failure
     ports: 
       - ${PORT}:${PORT}
     depends_on:
       - postgres
     environment: 
       - PORT=4000
+    volumes: 
+      - .:/app
   postgres:
     build: ./src/database
+    networks: 
+      - backend
+    restart: on-failure
     ports: 
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     environment: 
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    volumes: 
+      - ./pgdata:/var/lib/postgresql/data
+
+networks: 
+  backend:
+    driver: bridge
