@@ -1,5 +1,5 @@
 FROM node:14.17-alpine3.13
-WORKDIR /app
+WORKDIR /usr/app
 COPY package*.json .
 RUN npm install -g nodemon
 RUN npm install
