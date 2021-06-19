@@ -1,6 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
 import "reflect-metadata";
-import { createConnection } from "typeorm";
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
@@ -15,12 +14,6 @@ import taskRouter from './resources/tasks/task.router';
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 const { INTERNAL_SERVER_ERROR } = StatusCodes;
-
-createConnection()
-  .then(() => {
-    // here you can start to work with your entities
-   console.log('Connected to DB!')
-}).catch(error => console.log(error));
 
 process.on('uncaughtException', (err) => {
   logger.error(`${err.message}`);   
