@@ -1,33 +1,36 @@
 import express, { Request, Response } from 'express';
-import User from './user.model';
 import usersService from './user.service';
+import { toResponse } from '../../common/to_response';
 
 const router = express.Router();
 
 router.route('/').get(async (_, res: Response) => {
   const users = await usersService.getAll();
-  res.json(users.map(User.toResponse));
+  res.json(users.map(toResponse));
 });
 
 router.route('/:id').get(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user: User | undefined = await usersService.getById(id);
-  res.json(User.toResponse(user));
+  const user = await usersService.getById(id);
+  if (user) {
+    res.json(toResponse(user));
+  }  
 });
 
 router.route('/').post(async (req: Request, res: Response) => {
   const { body } = req;
-  const user = new User(body);
-  await usersService.create(user);
-  res.status(201).json(User.toResponse(user));
+  const user = await usersService.create(body);
+  res.status(201).json(toResponse(user));
 });
 
 router.route('/:id').put(async (req: Request, res: Response) => {
   const { body } = req;
   const { id } = req.params;
-  const user = new User({ id, ...body });
+  const user = { id, ...body};
   const newUser = await usersService.update(user);
-  res.json(newUser);
+  if (newUser) {
+    res.json(toResponse(newUser));
+  }  
 });
 
 router.route('/:id').delete(async (req: Request, res: Response) => {

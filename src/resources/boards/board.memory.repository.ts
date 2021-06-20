@@ -1,36 +1,57 @@
-import Board from './board.model';
-
-const boards: Board[] = [];
+import { getRepository } from 'typeorm';
+import { Board } from '../../entities/Board';
 
 /**
  * Returns all boards
  * @returns {Object[]} Array of boards
  */
-const getAll = async (): Promise<Board[]> => boards;
+const getAll = async (): Promise<Board[]> => {
+  const boardRepository = getRepository(Board);
+  const boards = await boardRepository.find();
+  return boards;
+};
 
 /**
  * Returns board by id
  * @param {string} id
  * @returns {Object} a required board
  */
-const getById = async (id: string | undefined): Promise<Board | undefined> => boards.find((board) => board.id === id);
+const getById = async (id: string | undefined): Promise<Board | undefined> => {
+  const boardRepository = getRepository(Board);
+  const board = await boardRepository.findOne(id);
+  return board;
+}
 
 /**
  * Creates new board
  * @param {Object} board
  * @returns void
  */
-const create = async (board: Board): Promise<number> => boards.push(board);
+const create = async (board: Board): Promise<Board> => {
+  const boardRepository = getRepository(Board);
+  const newBoard = new Board();
+  const { title, columns } = board;
+  newBoard.title = title;
+  newBoard.columns = columns;
+  await boardRepository.save(newBoard);
+  return newBoard;  
+}
 
 /**
  * Returns updated board
  * @param {Object} board
  * @returns {Object} an updated board
  */
-const update = async (board: Board): Promise<Board> => {
-  const index = boards.findIndex((item: Board) => board.id === item.id);
-  boards[index] = board;
-  return board;
+const update = async (board: Board): Promise<Board | undefined> => {
+  const boardRepository = getRepository(Board);
+  const updatedBoard = await boardRepository.findOne(board.id);
+  if (updatedBoard) {
+    const { title, columns } = board;
+    updatedBoard.title = title;
+    updatedBoard.columns = columns;
+    await boardRepository.save(updatedBoard);
+  }  
+  return updatedBoard;
 };
 
 /**
@@ -39,10 +60,13 @@ const update = async (board: Board): Promise<Board> => {
  * @returns void
  */
 const remove = async (id: string | undefined): Promise<void> => {
-  const index = boards.findIndex((item: Board) => id === item.id);
-  boards.splice(index, 1);
+  const boardRepository = getRepository(Board);
+  const board = await boardRepository.findOne(id);
+  if (board) {
+    await boardRepository.remove(board);
+  }  
 };
 
 export default {
-  getAll, getById, create, update, remove,
+  getAll, getById, create, update, remove
 };

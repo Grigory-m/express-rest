@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import Board from './board.model';
-import Column from './column.model';
+import { Board } from '../../entities/Board';
+import { Columns } from '../../entities/Columns';
 import boardsService from './board.service';
 import tasksService from '../tasks/task.service';
 
@@ -21,9 +21,17 @@ router.route('/:id').get(async (req: Request, res: Response) => {
 });
 
 router.route('/').post(async (req: Request, res: Response) => {
-  const { title, columns: col } = req.body;
-  const columns = col.map((item: Column) => new Column(item));
-  const board = new Board({ title, columns });
+  const { boardTitle, columns: col } = req.body;
+  const columns = col.map((item: Columns) => {
+    const { title, order } = item;
+    const column = new Columns();
+    column.title = title;
+    column.order = order;
+    return column;
+  });
+  const board = new Board();
+  board.title = boardTitle;
+  board.columns = columns;
   await boardsService.create(board);
   res.status(201).json(board);
 });
@@ -31,7 +39,7 @@ router.route('/').post(async (req: Request, res: Response) => {
 router.route('/:id').put(async (req: Request, res: Response) => {
   const { body } = req;
   const { id } = req.params;
-  const board = new Board({ id, ...body });
+  const board = { id, ...body };
   const newBoard = await boardsService.update(board);
   res.json(newBoard);
 });

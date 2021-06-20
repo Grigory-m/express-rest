@@ -1,5 +1,4 @@
-import Board from './board.model';
-import Task from '../tasks/task.model';
+import { Board } from '../../entities/Board';
 import boardsRepo from './board.memory.repository';
 import tasksService from '../tasks/task.service';
 
@@ -21,14 +20,14 @@ const getById = (id: string | undefined): Promise<Board | undefined> => boardsRe
  * @param {Object} board
  * @returns void
  */
-const create = (board: Board): Promise<number> => boardsRepo.create(board);
+const create = (board: Board): Promise<Board> => boardsRepo.create(board);
 
 /**
  * Returns updated board
  * @param {Object} board
  * @returns {Object} an updated board
  */
-const update = (board: Board): Promise<Board> => boardsRepo.update(board);
+const update = (board: Board): Promise<Board | undefined> => boardsRepo.update(board);
 
 /**
  * Deletes board by id
@@ -36,9 +35,7 @@ const update = (board: Board): Promise<Board> => boardsRepo.update(board);
  * @returns void
  */
 const remove = async (id: string | undefined): Promise<void> => {
-  const tasks = await tasksService.getAll(id);
-  const removedTasks = tasks.map((task: Task) => tasksService.remove(task.id));
-  await Promise.all(removedTasks);
+  await tasksService.remove(id);
   boardsRepo.remove(id);
 };
 

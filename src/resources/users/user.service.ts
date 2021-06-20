@@ -1,7 +1,7 @@
-import User from './user.model';
-import Task from '../tasks/task.model';
+import { getRepository } from 'typeorm';
+import { User } from '../../entities/User';
+import { Task } from '../../entities/Task';
 import usersRepo from './user.memory.repository';
-import tasksService from '../tasks/task.memory.repository';
 
 /**
  * Returns all users
@@ -21,14 +21,14 @@ const getById = async (id: string | undefined): Promise<User | undefined> => use
  * @param {Object} user
  * @returns void
  */
-const create = async (user: User): Promise<number> => usersRepo.create(user);
+const create = async (user: User): Promise<User> => usersRepo.create(user);
 
 /**
  * Returns updated user
  * @param {Object} user
  * @returns {Object} an updated user
  */
-const update = async (user: User): Promise<User> => usersRepo.update(user);
+const update = async (user: User): Promise<User | undefined> => usersRepo.update(user);
 
 /**
  * Deletes user by id
@@ -36,15 +36,24 @@ const update = async (user: User): Promise<User> => usersRepo.update(user);
  * @returns void
  */
 const remove = async (id: string | undefined): Promise<void> => {
-  usersRepo.remove(id);
-  tasksService.tasks.forEach((item: Task) => {
-    if (item.userId === id) {
-      const task = { ...item, userId: null };
-      tasksService.update(task);
-    }
+  await usersRepo.remove(id);
+  const taskRepository = getRepository(Task);
+  const tasks = await taskRepository.find({ userId: id })
+  tasks.forEach(async task => {
+    const updatedTask = await taskRepository.findOne(task.id);
+    if (updatedTask) {
+      updatedTask.userId = null;
+      await taskRepository.save(updatedTask);
+    }    
   });
+  // tasksService.tasks.forEach((item: Task) => {
+  //   if (item.userId === id) {
+  //     const task = { ...item, userId: null };
+  //     tasksService.update(task);
+  //   }
+  // });
 };
 
 export default {
-  getAll, getById, create, update, remove,
+  getAll, getById, create, update, remove
 };
