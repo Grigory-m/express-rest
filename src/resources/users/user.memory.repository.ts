@@ -61,12 +61,13 @@ const update = async (user: User): Promise<User | undefined> => {
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
+const remove = async (id: string | undefined): Promise<User | undefined> => {
   const userRepository = getRepository(User);
   const user = await userRepository.findOne(id);
   if (user) {
     await userRepository.remove(user);
   }  
+  return user;
 };
 
 export default {

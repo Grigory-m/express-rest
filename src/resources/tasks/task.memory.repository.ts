@@ -29,16 +29,8 @@ const getById = async (id:string): Promise<Task | undefined> => {
  */
 const create = async (task: Task): Promise<Task> => {
   const taskRepository = getRepository(Task);
-  const newTask = new Task();
-  const { title, order, description, userId, boardId, columnId } = task;
-  newTask.title = title;
-  newTask.order = order;
-  newTask.description = description;
-  newTask.userId = userId;
-  newTask.boardId = boardId;
-  newTask.columnId = columnId;
-  await taskRepository.save(newTask);
-  return newTask;  
+  await taskRepository.save(task);
+  return task;  
 }
 
 /**

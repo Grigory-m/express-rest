@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { v4 as uuid} from 'uuid';
 import { Board } from '../../entities/Board';
 import { Columns } from '../../entities/Columns';
 import boardsService from './board.service';
@@ -21,17 +22,18 @@ router.route('/:id').get(async (req: Request, res: Response) => {
 });
 
 router.route('/').post(async (req: Request, res: Response) => {
-  const { boardTitle, columns: col } = req.body;
-  const columns = col.map((item: Columns) => {
-    const { title, order } = item;
-    const column = new Columns();
-    column.title = title;
-    column.order = order;
-    return column;
+  const { title: boardTitle, columns } = req.body;
+  const newColumns: Columns[] = columns.map((column: { title: string; order: number; }) => {
+    const { title, order } = column;
+    const newColumn = new Columns();
+    newColumn.id = uuid();
+;   newColumn.title = title;
+    newColumn.order = order;  
+    return newColumn;
   });
   const board = new Board();
   board.title = boardTitle;
-  board.columns = columns;
+  board.columns = newColumns;  
   await boardsService.create(board);
   res.status(201).json(board);
 });
@@ -46,10 +48,12 @@ router.route('/:id').put(async (req: Request, res: Response) => {
 
 router.route('/:id').delete(async (req: Request, res: Response) => {
   const { id } = req.params;
-  await boardsService.remove(id);
-  res
-    .status(200)
-    .json(null);
+  const board = await boardsService.remove(id);
+  if (board) {
+    res.status(200).json(null);
+  } else {
+    res.status(404).json("Not found!");
+  }  
 });
 
 export default router;

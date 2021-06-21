@@ -1,6 +1,5 @@
 import { Board } from '../../entities/Board';
 import boardsRepo from './board.memory.repository';
-import tasksService from '../tasks/task.service';
 
 /**
  * Returns all boards
@@ -34,9 +33,9 @@ const update = (board: Board): Promise<Board | undefined> => boardsRepo.update(b
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
-  await tasksService.remove(id);
-  boardsRepo.remove(id);
+const remove = async (id: string | undefined): Promise<Board | undefined> => {
+  const board = boardsRepo.remove(id);
+  return board;
 };
 
 export default {

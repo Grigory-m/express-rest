@@ -21,6 +21,6 @@ export class Task {
   @Column()
   boardId!: string;
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
   columnId!: string;
 }

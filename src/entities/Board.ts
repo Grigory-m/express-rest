@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn } from "typeorm";
-import { Columns } from '../entities/Columns';
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Columns } from './Columns';
 
 @Entity()
 export class Board {
@@ -10,6 +10,6 @@ export class Board {
   @Column()
   title!: string;
 
-  @JoinColumn()
-  columns!: Columns;
+  @Column('json', { nullable: true })
+  columns!: Columns[];   
 }

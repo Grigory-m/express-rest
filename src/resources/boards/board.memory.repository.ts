@@ -1,5 +1,6 @@
 import { getRepository } from 'typeorm';
 import { Board } from '../../entities/Board';
+import { Task } from '../../entities/Task';
 
 /**
  * Returns all boards
@@ -29,11 +30,7 @@ const getById = async (id: string | undefined): Promise<Board | undefined> => {
  */
 const create = async (board: Board): Promise<Board> => {
   const boardRepository = getRepository(Board);
-  const newBoard = new Board();
-  const { title, columns } = board;
-  newBoard.title = title;
-  newBoard.columns = columns;
-  await boardRepository.save(newBoard);
+  const newBoard = await boardRepository.save(board);
   return newBoard;  
 }
 
@@ -59,12 +56,20 @@ const update = async (board: Board): Promise<Board | undefined> => {
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
+const remove = async (id: string | undefined): Promise<Board | undefined> => {
   const boardRepository = getRepository(Board);
+  const taskRepository = getRepository(Task);
   const board = await boardRepository.findOne(id);
+  const tasks = await taskRepository.find({ boardId: id});
   if (board) {
     await boardRepository.remove(board);
+    if (tasks) {
+      tasks.forEach(async task => {
+        await taskRepository.remove(task);
+      });
+    }
   }  
+  return board;
 };
 
 export default {

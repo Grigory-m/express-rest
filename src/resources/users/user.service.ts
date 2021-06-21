@@ -35,23 +35,15 @@ const update = async (user: User): Promise<User | undefined> => usersRepo.update
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
-  await usersRepo.remove(id);
+const remove = async (id: string | undefined): Promise<User | undefined> => {
+  const user = await usersRepo.remove(id);
   const taskRepository = getRepository(Task);
   const tasks = await taskRepository.find({ userId: id })
   tasks.forEach(async task => {
-    const updatedTask = await taskRepository.findOne(task.id);
-    if (updatedTask) {
-      updatedTask.userId = null;
-      await taskRepository.save(updatedTask);
-    }    
+      const updatedTask = { ...task, userId: null };
+      await taskRepository.save(updatedTask);        
   });
-  // tasksService.tasks.forEach((item: Task) => {
-  //   if (item.userId === id) {
-  //     const task = { ...item, userId: null };
-  //     tasksService.update(task);
-  //   }
-  // });
+  return user;
 };
 
 export default {

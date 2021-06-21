@@ -1,7 +1,7 @@
 import { getConnection, createConnection, Connection } from 'typeorm';
 import logger from '../common/logger';
 
-export const connect = async () => {
+export const connect = async (): Promise<void> => {
   let connection: Connection | undefined;
 
   try {
@@ -21,13 +21,13 @@ export const connect = async () => {
   } 
 }
 
-export const connectToDB = async (cb: () => void) => {
+export const connectToDB = async (cb: () => void): Promise<void> => {
   try {
     await connect();
     cb();
     console.log('Connected to DB!');
   } catch (error) {
     console.log('Error in connection!')
-    logger.error(`${error.message}`);
+    logger.error(`${error.message}`);    
   }
 }

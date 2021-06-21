@@ -35,10 +35,12 @@ router.route('/:id').put(async (req: Request, res: Response) => {
 
 router.route('/:id').delete(async (req: Request, res: Response) => {
   const { id } = req.params;
-  await usersService.remove(id);
-  res
-    .status(200)
-    .json(null);
+  const user = await usersService.remove(id);
+  if (user) {
+    res.status(200).json(null);
+  } else {
+    res.status(404).json('Not found!');
+  }  
 });
 
 export default router;
