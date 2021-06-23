@@ -43,10 +43,7 @@ const update = async (board: Board): Promise<Board | undefined> => {
   const boardRepository = getRepository(Board);
   const updatedBoard = await boardRepository.findOne(board.id);
   if (updatedBoard) {
-    const { title, columns } = board;
-    updatedBoard.title = title;
-    updatedBoard.columns = columns;
-    await boardRepository.save(updatedBoard);
+    await boardRepository.save(board);
   }  
   return updatedBoard;
 };

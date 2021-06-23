@@ -61,8 +61,9 @@ const update = async (task: Task): Promise<Task | undefined> => {
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
-  await tasksRepo.remove(id);
+const remove = async (id: string | undefined, boardId: string): Promise<Task | undefined> => {
+  const task = await tasksRepo.remove(id, boardId);
+  return task;
 };
 
 export default {

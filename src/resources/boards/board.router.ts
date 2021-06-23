@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import { v4 as uuid} from 'uuid';
 import { Board } from '../../entities/Board';
 import { Columns } from '../../entities/Columns';
 import boardsService from './board.service';
@@ -22,18 +21,14 @@ router.route('/:id').get(async (req: Request, res: Response) => {
 });
 
 router.route('/').post(async (req: Request, res: Response) => {
-  const { title: boardTitle, columns } = req.body;
+  const { columns } = req.body;
   const newColumns: Columns[] = columns.map((column: { title: string; order: number; }) => {
-    const { title, order } = column;
-    const newColumn = new Columns();
-    newColumn.id = uuid();
-;   newColumn.title = title;
-    newColumn.order = order;  
-    return newColumn;
+    let newColumn = new Columns();
+    newColumn  = { id: newColumn.id, ...column};
+;   return newColumn;
   });
-  const board = new Board();
-  board.title = boardTitle;
-  board.columns = newColumns;  
+  let board = new Board();
+  board = { id: board.id, ...req.body, columns: newColumns };
   await boardsService.create(board);
   res.status(201).json(board);
 });
@@ -52,7 +47,7 @@ router.route('/:id').delete(async (req: Request, res: Response) => {
   if (board) {
     res.status(200).json(null);
   } else {
-    res.status(404).json("Not found!");
+    res.status(404).json({"message": "Not found!"});
   }  
 });
 

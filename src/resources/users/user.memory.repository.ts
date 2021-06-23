@@ -29,13 +29,8 @@ const getById = async (id: string | undefined): Promise<User | undefined> => {
  */
 const create = async (user: User): Promise<User> => {
   const userRepository = getRepository(User);
-  const newUser = new User();
-  const { name, login, password } = user;
-  newUser.name =name;
-  newUser.login = login;
-  newUser.password = password;
-  await userRepository.save(newUser);
-  return newUser;  
+  await userRepository.save(user);
+  return user;  
 }
 
 /**
@@ -47,11 +42,7 @@ const update = async (user: User): Promise<User | undefined> => {
   const userRepository = getRepository(User);
   const updatedUser = await userRepository.findOne(user.id);
   if (updatedUser) {
-    const { name, login, password } = user;
-    updatedUser.name =name;
-    updatedUser.login = login;
-    updatedUser.password = password;
-    await userRepository.save(updatedUser);
+    await userRepository.save(user);
   }  
   return updatedUser;
 };

@@ -40,17 +40,7 @@ const create = async (task: Task): Promise<Task> => {
  */
 const update = async (task: Task): Promise<Task | undefined> => {
   const taskRepository = getRepository(Task);
-  const updatedTask = await taskRepository.findOne(task.id);
-  if (updatedTask) {
-    const { title, order, description, userId, boardId, columnId } = task;
-    updatedTask.title = title;
-    updatedTask.order = order;
-    updatedTask.description = description;
-    updatedTask.userId = userId;
-    updatedTask.boardId = boardId;
-    updatedTask.columnId = columnId;
-    await taskRepository.save(updatedTask);
-  }  
+  const updatedTask = await taskRepository.save(task);
   return updatedTask;
 };
 
@@ -60,12 +50,13 @@ const update = async (task: Task): Promise<Task | undefined> => {
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
+const remove = async (id: string | undefined, boardId: string): Promise<Task | undefined> => {
   const taskRepository = getRepository(Task);
-  const task = await taskRepository.findOne(id);
+  const task = await taskRepository.findOne({ id, boardId });
   if (task) {
     await taskRepository.remove(task);
   }  
+  return task;
 };
 
 export default {

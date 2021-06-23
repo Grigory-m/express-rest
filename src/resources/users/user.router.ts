@@ -39,7 +39,7 @@ router.route('/:id').delete(async (req: Request, res: Response) => {
   if (user) {
     res.status(200).json(null);
   } else {
-    res.status(404).json('Not found!');
+    res.status(404).json({"message": "Not found!"});
   }  
 });
 
