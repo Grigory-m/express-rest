@@ -5,8 +5,10 @@ import { getRepository } from 'typeorm';
 import logger from '../common/logger';
 import { User } from '../entities/User';
 import { JWT_SECRET_KEY } from '../common/config';
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 const router = express.Router();
+const { INTERNAL_SERVER_ERROR, FORBIDDEN, OK } = StatusCodes;
 
 router.route('/').post(async (req: Request, res: Response) => {
   const { login, password } = req.body;
@@ -18,18 +20,18 @@ router.route('/').post(async (req: Request, res: Response) => {
       if (match) {
         try {
           const token = jwt.sign({ id: user.id, login }, JWT_SECRET_KEY!, { expiresIn: 60 * 60 * 24 });
-          res.status(200).json({ token });
+          res.status(OK).json({ token });
         } catch (error) {
           logger.error(`${error.message}`);
-          res.status(500).json({ error: error.message });
+          res.status(INTERNAL_SERVER_ERROR).send(getReasonPhrase(INTERNAL_SERVER_ERROR));
         }      
       } else {
-        res.status(403).json({ error: "Incorrect login or password" });
+        res.status(FORBIDDEN).send(getReasonPhrase(FORBIDDEN));
       }
     }
   } catch (error) {
     logger.error(`${error.message}`);
-    res.status(403).json({ error: "Incorrect login or password" });
+    res.status(FORBIDDEN).send(getReasonPhrase(FORBIDDEN));
   }  
 });
 
