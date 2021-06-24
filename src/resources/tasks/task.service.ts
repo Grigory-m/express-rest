@@ -25,17 +25,6 @@ const getById = async (boardId: string | undefined, id: string |undefined): Prom
 }
 
 /**
- * Returns task with userId
- * @param {string} userId
- * @returns {Object} task with userId
- */
-const getByUserId = async (userId: string): Promise<Task[] | undefined> => {
-  const taskRepository = getRepository(Task);
-  const tasks = await taskRepository.find({ userId });
-  return tasks;
-}
-
-/**
  * Creates new task
  * @param {string} boardId
  * @param {Object} task
@@ -67,5 +56,5 @@ const remove = async (id: string | undefined, boardId: string): Promise<Task | u
 };
 
 export default {
-  getAll, getById, getByUserId, create, update, remove,
+  getAll, getById, create, update, remove
 };

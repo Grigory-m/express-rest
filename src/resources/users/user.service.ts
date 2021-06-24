@@ -38,13 +38,13 @@ const update = async (user: User): Promise<User | undefined> => usersRepo.update
 const remove = async (id: string | undefined): Promise<User | undefined> => {
   const user = await usersRepo.remove(id);
   const taskRepository = getRepository(Task);
-  const tasks = await taskRepository.find();
-  tasks.forEach(async task => {
-    if (task.userId === id) {
-      const updatedTask = {...task, userId: null};
-      await taskRepository.save(updatedTask);  
-    }       
-  });
+  const tasks = await taskRepository.find({ userId: id });
+  await Promise.all(tasks.map(async task => {
+    const updatedTask = task;
+    updatedTask.userId = null;
+    const promise = await taskRepository.save(task);
+    return promise;
+  }));   
   return user;
 };
 

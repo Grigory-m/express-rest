@@ -1,4 +1,6 @@
+import { getRepository } from 'typeorm';
 import { Board } from '../../entities/Board';
+import { Task } from '../../entities/Task';
 import boardsRepo from './board.memory.repository';
 
 /**
@@ -35,6 +37,12 @@ const update = (board: Board): Promise<Board | undefined> => boardsRepo.update(b
  */
 const remove = async (id: string | undefined): Promise<Board | undefined> => {
   const board = boardsRepo.remove(id);
+  const taskRepository = getRepository(Task);
+  const tasks = await taskRepository.find({ boardId: id });
+  await Promise.all(tasks.map(async task => {
+    const promise = await taskRepository.remove(task);
+    return promise;
+  }));    
   return board;
 };
 

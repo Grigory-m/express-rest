@@ -1,6 +1,5 @@
 import { getRepository } from 'typeorm';
 import { Board } from '../../entities/Board';
-import { Task } from '../../entities/Task';
 
 /**
  * Returns all boards
@@ -55,16 +54,9 @@ const update = async (board: Board): Promise<Board | undefined> => {
  */
 const remove = async (id: string | undefined): Promise<Board | undefined> => {
   const boardRepository = getRepository(Board);
-  const taskRepository = getRepository(Task);
   const board = await boardRepository.findOne(id);
-  const tasks = await taskRepository.find({ boardId: id});
   if (board) {
     await boardRepository.remove(board);
-    if (tasks) {
-      tasks.forEach(async task => {
-        await taskRepository.remove(task);
-      });
-    }
   }  
   return board;
 };
