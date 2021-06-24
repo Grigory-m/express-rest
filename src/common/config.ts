@@ -8,6 +8,7 @@ dotenv.config({
 export const { 
   PORT, 
   NODE_ENV, 
+  JWT_SECRET_KEY,
   POSTGRES_HOST,
   POSTGRES_USER,
   POSTGRES_PASSWORD,

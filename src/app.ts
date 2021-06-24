@@ -11,6 +11,7 @@ import HttpException from './common/errors/exception';
 import boardRouter from './resources/boards/board.router';
 import userRouter from './resources/users/user.router';
 import taskRouter from './resources/tasks/task.router';
+import user from './controllers/user';    
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -58,6 +59,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   })
 });
 
+app.use('/login', user);
 app.use('/boards', boardRouter);
 app.use('/users', userRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
