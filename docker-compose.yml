@@ -2,6 +2,7 @@ version: '3'
 services:
   node:
     build: .
+    container_name: app
     networks: 
       - backend
     restart: on-failure
@@ -12,7 +13,7 @@ services:
     environment: 
       - PORT=4000
     volumes: 
-      - .:/app
+      - .:/usr/app
   postgres:
     build: ./src/database
     networks: 
@@ -25,8 +26,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes: 
-      - ./pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
 networks: 
   backend:
     driver: bridge
+volumes:
+  pgdata:

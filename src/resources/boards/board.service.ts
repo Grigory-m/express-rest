@@ -1,7 +1,7 @@
-import Board from './board.model';
-import Task from '../tasks/task.model';
+import { getRepository } from 'typeorm';
+import { Board } from '../../entities/Board';
+import { Task } from '../../entities/Task';
 import boardsRepo from './board.memory.repository';
-import tasksService from '../tasks/task.service';
 
 /**
  * Returns all boards
@@ -21,25 +21,29 @@ const getById = (id: string | undefined): Promise<Board | undefined> => boardsRe
  * @param {Object} board
  * @returns void
  */
-const create = (board: Board): Promise<number> => boardsRepo.create(board);
+const create = (board: Board): Promise<Board> => boardsRepo.create(board);
 
 /**
  * Returns updated board
  * @param {Object} board
  * @returns {Object} an updated board
  */
-const update = (board: Board): Promise<Board> => boardsRepo.update(board);
+const update = (board: Board): Promise<Board | undefined> => boardsRepo.update(board);
 
 /**
  * Deletes board by id
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
-  const tasks = await tasksService.getAll(id);
-  const removedTasks = tasks.map((task: Task) => tasksService.remove(task.id));
-  await Promise.all(removedTasks);
-  boardsRepo.remove(id);
+const remove = async (id: string | undefined): Promise<Board | undefined> => {
+  const board = boardsRepo.remove(id);
+  const taskRepository = getRepository(Task);
+  const tasks = await taskRepository.find({ boardId: id });
+  await Promise.all(tasks.map(async task => {
+    const promise = await taskRepository.remove(task);
+    return promise;
+  }));    
+  return board;
 };
 
 export default {

@@ -26,7 +26,7 @@
   ],
   "include": [
     "./src/**/*.ts"
-  ],
+, "src/common/config.ts", "src/common/errors"  ],
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"

@@ -1,27 +1,36 @@
-import Task from './task.model';
-
-const tasks: Task[] = [];
+import { getRepository } from 'typeorm';
+import { Task } from '../../entities/Task';
 
 /**
  * Returns all tasks
  * @returns {Object[]} Array of tasks
  */
-const getAll = async (): Promise<Task[]> => tasks;
+const getAll = async (): Promise<Task[]> => {
+  const taskRepository = getRepository(Task);
+  const tasks = await taskRepository.find();
+  return tasks;
+};
 
 /**
  * Returns task by id
  * @param {string} id
  * @returns {Object} a required task
  */
-const getById = async (id:string): Promise<Task | undefined> => tasks.find((task: Task) => task.id === id);
+const getById = async (id:string): Promise<Task | undefined> => {
+  const taskRepository = getRepository(Task);
+  const task = await taskRepository.findOne(id);
+  return task;
+}
 
 /**
  * Creates new task
  * @param {Object} task
  * @returns void
  */
-const create = async (task: Task): Promise<void> => {
-  tasks.push(task);
+const create = async (task: Task): Promise<Task> => {
+  const taskRepository = getRepository(Task);
+  await taskRepository.save(task);
+  return task;  
 }
 
 /**
@@ -29,22 +38,27 @@ const create = async (task: Task): Promise<void> => {
  * @param {Object} task
  * @returns {Object} an updated task
  */
-const update = async (task: Task): Promise<Task> => {
-  const index = tasks.findIndex((item: Task) => task.id === item.id);
-  tasks[index] = task;
-  return task;
+const update = async (task: Task): Promise<Task | undefined> => {
+  const taskRepository = getRepository(Task);
+  const updatedTask = await taskRepository.save(task);
+  return updatedTask;
 };
+
 
 /**
  * Deletes task by id
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
-  const index = tasks.findIndex((item: Task) => id === item.id);
-  tasks.splice(index, 1);
+const remove = async (id: string | undefined, boardId: string): Promise<Task | undefined> => {
+  const taskRepository = getRepository(Task);
+  const task = await taskRepository.findOne({ id, boardId });
+  if (task) {
+    await taskRepository.remove(task);
+  }  
+  return task;
 };
 
 export default {
-  getAll, getById, create, update, remove, tasks,
+  getAll, getById, create, update, remove
 };

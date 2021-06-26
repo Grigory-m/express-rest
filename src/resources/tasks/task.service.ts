@@ -1,13 +1,16 @@
-import Task from './task.model';
+import { getRepository } from 'typeorm';
+import { Task } from '../../entities/Task';
 import tasksRepo from './task.memory.repository';
-
-const { tasks } = tasksRepo;
 /**
  * Returns tasks by boardId
  * @param {string} boardId
  * @returns {Object[]} array of tasks
  */
-const getAll = async (boardId: string | undefined): Promise<Task[]> => tasks.filter((task: Task) => task.boardId === boardId)
+const getAll = async (boardId: string | undefined): Promise<Task[]> => {
+  const taskRepository = getRepository(Task);
+  const tasks = await taskRepository.find({ boardId });
+  return tasks;
+}
 
 /**
  * Returns tasks by boardId and task id
@@ -16,16 +19,10 @@ const getAll = async (boardId: string | undefined): Promise<Task[]> => tasks.fil
  * @returns {Object} tasks with boardId and task id
  */
 const getById = async (boardId: string | undefined, id: string |undefined): Promise<Task | undefined> => {
-  const tasksWithBoardId = tasks.filter((task: Task) => task.boardId === boardId);
-  return tasksWithBoardId.find((task: Task) => task.id === id);
-};
-
-/**
- * Returns task with userId
- * @param {string} userId
- * @returns {Object} task with userId
- */
-const getByUserId = async (userId: string): Promise<Task | undefined> => tasksRepo.tasks.find(((task: Task) => task.userId === userId));
+  const taskRepository = getRepository(Task);
+  const task = await taskRepository.findOne({ boardId, id });
+  return task;
+}
 
 /**
  * Creates new task
@@ -42,8 +39,8 @@ const create = async (task: Task): Promise<void> => {
  * @param {Object} task
  * @returns {Object} an updated task
  */
-const update = async (task: Task): Promise<Task> => {
-  const updatedTask = await tasksRepo.update(task);
+const update = async (task: Task): Promise<Task | undefined> => {
+  const updatedTask = tasksRepo.update(task);
   return updatedTask;
 };
 
@@ -53,10 +50,11 @@ const update = async (task: Task): Promise<Task> => {
  * @param {string} id
  * @returns void
  */
-const remove = async (id: string | undefined): Promise<void> => {
-  await tasksRepo.remove(id);
+const remove = async (id: string | undefined, boardId: string): Promise<Task | undefined> => {
+  const task = await tasksRepo.remove(id, boardId);
+  return task;
 };
 
 export default {
-  getAll, getById, getByUserId, create, update, remove,
+  getAll, getById, create, update, remove
 };

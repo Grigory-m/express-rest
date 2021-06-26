@@ -1,4 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import "reflect-metadata";
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
@@ -27,7 +29,7 @@ process.on('unhandledRejection', (reason) => {
     process.exit(1);  
   });    
 });
-
+app.use(cors());
 app.use(express.json());
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
