@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { PORT } from './common/config';
 import app from './app';
 import { connectToDB } from './database/db';

@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import usersService from './user.service';
 import { toResponse } from '../../common/to_response';
 import { User } from '../../entities/User';
