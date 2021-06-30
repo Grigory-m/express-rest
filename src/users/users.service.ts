@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 import { User } from './user.entity';
+import { Task } from '../tasks/task.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import * as bcrypt from 'bcryptjs';
 import { toResponse } from '../common/to_response';
 import { IUser } from './interfaces/user.interface';
 
 @Injectable()
-export class UsersService {  
+export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Task)
+    private tasksRepository: Repository<Task>
   ) {}
 
   async findAll(): Promise<IUser[]> {
@@ -36,7 +39,7 @@ export class UsersService {
   async update(id: string, dto: UpdateUserDto): Promise<IUser | void> {
     let updatedUser = await this.usersRepository.findOne(id);
     if (updatedUser) {
-      updatedUser = { id: updatedUser.id, ...dto};
+      updatedUser = { id: updatedUser.id, ...dto };
       await this.usersRepository.save(updatedUser);
     }
     return toResponse(updatedUser);
@@ -44,5 +47,14 @@ export class UsersService {
 
   async remove(id: string): Promise<void> {
     await this.usersRepository.delete(id);
+    const tasks = await this.tasksRepository.find({ userId: id });
+    await Promise.all(
+      tasks.map(async (task) => {
+        const updatedTask = task;
+        updatedTask.userId = null;
+        const promise = await this.tasksRepository.save(updatedTask);
+        return promise;
+      })
+    );
   }
 }

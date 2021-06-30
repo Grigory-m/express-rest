@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Delete, HttpStatus } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Delete,
+  HttpStatus,
+} from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
@@ -17,21 +27,24 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id') id:string): Promise<IUser | void> {
+  async findOne(@Param('id') id: string): Promise<IUser | void> {
     const user = await this.usersService.findOne(id);
     return user;
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createUserDto: CreateUserDto): Promise<IUser | void> {    
+  async create(@Body() createUserDto: CreateUserDto): Promise<IUser | void> {
     const user = await this.usersService.create(createUserDto);
     return user;
   }
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<IUser | void> {
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto
+  ): Promise<IUser | void> {
     const user = await this.usersService.update(id, updateUserDto);
     return user;
   }
@@ -42,5 +55,4 @@ export class UsersController {
     await this.usersService.remove(id);
     return null;
   }
-
 }
