@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { BoardsModule } from './boards/boards.module';
 import { Connection } from 'typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
@@ -25,7 +26,8 @@ import { join } from 'path';
         migrationsRun: true
       })
     }),
-    UsersModule
+    UsersModule,
+    BoardsModule
   ]
 })
 export class AppModule {
