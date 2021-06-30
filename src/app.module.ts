@@ -2,11 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { TasksModule } from './tasks/tasks.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -18,10 +16,10 @@ import { TasksModule } from './tasks/tasks.module';
         username: process.env.TYPEORM_USERNAME,
         password: process.env.TYPEORM_PASSWORD,
         database: process.env.TYPEORM_DATABASE,
-        entities: [join(`${__dirname}/**/*.entity{.ts,.js}`)],
-        migrations: [join(`${__dirname}/**/migration/*{.ts,.js}`)],
+        entities: [`${__dirname}/**/*.entity{.ts,.js}`],
+        migrations: [`${__dirname}/**/migration/*{.ts,.js}`],
         cli: {
-          migrationsDir: `${join(`${__dirname}/**/migration`)}`,
+          migrationsDir: `${__dirname}/**/migration`,
         },
         synchronize: false,
         migrationsRun: true,
