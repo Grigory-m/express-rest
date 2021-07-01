@@ -22,9 +22,9 @@ export class TasksService {
     return task;
   }
 
-  async create(dto: CreateTaskDto): Promise<Task | void> {
+  async create(boardId: string, dto: CreateTaskDto): Promise<Task | void> {
     let task = new Task();
-    task = { id: task.id, ...dto };
+    task = { id: task.id, ...dto, boardId };
     const newBoard = await this.tasksRepository.save(task);
     return newBoard;
   }
@@ -43,6 +43,9 @@ export class TasksService {
   }
 
   async remove(boardId: string, id: string): Promise<void> {
-    await this.tasksRepository.delete({ boardId, id });
+    const task = await this.tasksRepository.findOne({ boardId, id });
+    if (task) {
+      await this.tasksRepository.remove(task);
+    }
   }
 }

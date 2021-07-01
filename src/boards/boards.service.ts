@@ -52,13 +52,16 @@ export class BoardsService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.boardsRepository.delete(id);
-    const tasks = await this.tasksRepository.find({ boardId: id });
-    await Promise.all(
-      tasks.map(async (task) => {
-        const promise = await this.tasksRepository.remove(task);
-        return promise;
-      })
-    );
+    const board = await this.boardsRepository.findOne(id);
+    if (board) {
+      await this.boardsRepository.remove(board);
+      const tasks = await this.tasksRepository.find({ boardId: id });
+      await Promise.all(
+        tasks.map(async (task) => {
+          const promise = await this.tasksRepository.remove(task);
+          return promise;
+        })
+      );
+    }
   }
 }

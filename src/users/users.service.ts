@@ -46,15 +46,18 @@ export class UsersService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
-    const tasks = await this.tasksRepository.find({ userId: id });
-    await Promise.all(
-      tasks.map(async (task) => {
-        const updatedTask = task;
-        updatedTask.userId = null;
-        const promise = await this.tasksRepository.save(updatedTask);
-        return promise;
-      })
-    );
+    const user = await this.usersRepository.findOne(id);
+    if (user) {
+      await this.usersRepository.remove(user);
+      const tasks = await this.tasksRepository.find({ userId: id });
+      await Promise.all(
+        tasks.map(async (task) => {
+          const updatedTask = task;
+          updatedTask.userId = null;
+          const promise = await this.tasksRepository.save(updatedTask);
+          return promise;
+        })
+      );
+    }
   }
 }

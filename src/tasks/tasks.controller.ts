@@ -8,6 +8,9 @@ import {
   Put,
   Delete,
   HttpStatus,
+  NotFoundException,
+  BadRequestException,
+  Res,
 } from '@nestjs/common';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -26,18 +29,33 @@ export class TasksController {
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  async findOne(@Param() params): Promise<Task | void> {
-    const { boardId, id } = params;
-    const task = await this.tasksService.findOne(boardId, id);
-    return task;
+  async findOne(@Res() res, @Param() params): Promise<Task | void> {
+    try {
+      const { boardId, id } = params;
+      const task = await this.tasksService.findOne(boardId, id);
+      if (task) {
+        res.status(HttpStatus.OK).json(task);
+      } else {
+        throw new NotFoundException();
+      }
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createTaskDto: CreateTaskDto): Promise<Task | void> {
-    const task = await this.tasksService.create(createTaskDto);
-    return task;
+  async create(
+    @Param() params,
+    @Body() createTaskDto: CreateTaskDto
+  ): Promise<Task | void> {
+    try {
+      const { boardId } = params;
+      const task = await this.tasksService.create(boardId, createTaskDto);
+      return task;
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @Put(':id')
@@ -46,16 +64,23 @@ export class TasksController {
     @Param() params,
     @Body() updateTaskDto: UpdateTaskDto
   ): Promise<Task | void> {
-    const { boardId, id } = params;
-    const task = await this.tasksService.update(boardId, id, updateTaskDto);
-    return task;
+    try {
+      const { boardId, id } = params;
+      const task = await this.tasksService.update(boardId, id, updateTaskDto);
+      return task;
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param() params) {
+  async remove(@Res() res, @Param() params) {
     const { boardId, id } = params;
-    await this.tasksService.remove(boardId, id);
-    return null;
+    try {
+      await this.tasksService.remove(boardId, id);
+      res.status(HttpStatus.NO_CONTENT).json(null);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }
