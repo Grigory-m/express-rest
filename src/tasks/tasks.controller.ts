@@ -11,13 +11,15 @@ import {
   NotFoundException,
   BadRequestException,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TasksService } from './tasks.service';
 import { Task } from './task.entity';
-
+import { VerifyGuard } from '../guards/verify.guard';
 @Controller('boards/:boardId/tasks')
+@UseGuards(VerifyGuard)
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 

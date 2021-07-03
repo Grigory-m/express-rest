@@ -10,6 +10,7 @@ import { AppModule } from './app.module';
 import * as yamljs from 'yamljs';
 import { SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
+import createUser from './common/create_user';
 
 async function bootstrap() {
   const service = new ConfigService();
@@ -30,4 +31,6 @@ async function bootstrap() {
   SwaggerModule.setup('doc', app, document);
   await app.listen(PORT);
 }
-bootstrap();
+bootstrap().then(async () => {
+  await createUser();
+});

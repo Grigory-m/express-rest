@@ -11,13 +11,16 @@ import {
   NotFoundException,
   BadRequestException,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardsService } from './boards.service';
 import { Board } from './board.entity';
+import { VerifyGuard } from '../guards/verify.guard';
 
 @Controller('boards')
+@UseGuards(VerifyGuard)
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
