@@ -1,0 +1,39 @@
+{"message":"Starting Nest application..., NestFactory","level":"error","timestamp":"2021-07-04T13:55:29.124Z"}
+{"message":"PassportModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.207Z"}
+{"message":"TypeOrmModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.208Z"}
+{"message":"JwtModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.209Z"}
+{"message":"ConfigHostModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.210Z"}
+{"message":"ConfigModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.212Z"}
+{"message":"ConfigModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.213Z"}
+{"message":"TypeOrmCoreModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.416Z"}
+{"message":"TypeOrmModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.417Z"}
+{"message":"TypeOrmModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.418Z"}
+{"message":"TypeOrmModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.419Z"}
+{"message":"AppModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.420Z"}
+{"message":"TasksModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.423Z"}
+{"message":"UsersModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.424Z"}
+{"message":"BoardsModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.425Z"}
+{"message":"AuthModule dependencies initialized, InstanceLoader","level":"error","timestamp":"2021-07-04T13:55:29.426Z"}
+{"message":"AuthController {}:, RoutesResolver","level":"error","timestamp":"2021-07-04T13:55:29.547Z"}
+{"message":"Mapped {/login, POST} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.552Z"}
+{"message":"UsersController {/users}:, RoutesResolver","level":"error","timestamp":"2021-07-04T13:55:29.554Z"}
+{"message":"Mapped {/users, GET} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.556Z"}
+{"message":"Mapped {/users/:id, GET} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.558Z"}
+{"message":"Mapped {/users, POST} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.559Z"}
+{"message":"Mapped {/users/:id, PUT} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.565Z"}
+{"message":"Mapped {/users/:id, DELETE} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.566Z"}
+{"message":"TasksController {/boards/:boardId/tasks}:, RoutesResolver","level":"error","timestamp":"2021-07-04T13:55:29.568Z"}
+{"message":"Mapped {/boards/:boardId/tasks, GET} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.570Z"}
+{"message":"Mapped {/boards/:boardId/tasks/:id, GET} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.572Z"}
+{"message":"Mapped {/boards/:boardId/tasks, POST} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.592Z"}
+{"message":"Mapped {/boards/:boardId/tasks/:id, PUT} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.644Z"}
+{"message":"Mapped {/boards/:boardId/tasks/:id, DELETE} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.647Z"}
+{"message":"BoardsController {/boards}:, RoutesResolver","level":"error","timestamp":"2021-07-04T13:55:29.650Z"}
+{"message":"Mapped {/boards, GET} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.655Z"}
+{"message":"Mapped {/boards/:id, GET} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.658Z"}
+{"message":"Mapped {/boards, POST} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.663Z"}
+{"message":"Mapped {/boards/:id, PUT} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.668Z"}
+{"message":"Mapped {/boards/:id, DELETE} route, RouterExplorer","level":"error","timestamp":"2021-07-04T13:55:29.671Z"}
+{"message":"Nest application successfully started, NestApplication","level":"error","timestamp":"2021-07-04T13:55:29.681Z"}
+{"message":"Unable to connect to the database. Retrying (1)..., Error: getaddrinfo ENOTFOUND postgres\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:67:26)","level":"error","timestamp":"2021-07-04T18:38:55.191Z"}
+{"message":"Unable to connect to the database. Retrying (2)..., Error: getaddrinfo ENOTFOUND postgres\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:67:26)","level":"error","timestamp":"2021-07-04T18:39:00.472Z"}

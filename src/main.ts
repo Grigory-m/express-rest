@@ -11,6 +11,7 @@ import * as yamljs from 'yamljs';
 import { SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import createAdmin from './common/create_user';
+import { MyLogger } from './logger/logger.service';
 
 async function bootstrap() {
   const service = new ConfigService();
@@ -22,10 +23,13 @@ async function bootstrap() {
   if (fastify !== 'false') {
     app = await NestFactory.create<NestFastifyApplication>(
       AppModule,
-      new FastifyAdapter()
+      new FastifyAdapter(),
+      { logger: new MyLogger() }
     );
   } else {
-    app = await NestFactory.create<NestExpressApplication>(AppModule);
+    app = await NestFactory.create<NestExpressApplication>(AppModule, {
+      logger: new MyLogger(),
+    });
   }
 
   app.useGlobalFilters(new HttpExceptionFilter());
@@ -33,4 +37,6 @@ async function bootstrap() {
   await app.listen(PORT);
 }
 
-bootstrap().then(async () => { await createAdmin(); });
+bootstrap().then(async () => {
+  await createAdmin();
+});
