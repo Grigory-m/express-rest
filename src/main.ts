@@ -10,12 +10,13 @@ import { AppModule } from './app.module';
 import * as yamljs from 'yamljs';
 import { SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
-import createUser from './common/create_user';
+import createAdmin from './common/create_user';
 
 async function bootstrap() {
   const service = new ConfigService();
   const fastify = service.get<string>('USE_FASTIFY');
   const PORT = service.get<number>('PORT');
+  const document = yamljs.load(`${__dirname}/../doc/api.yaml`);
   let app: INestApplication;
 
   if (fastify !== 'false') {
@@ -26,11 +27,10 @@ async function bootstrap() {
   } else {
     app = await NestFactory.create<NestExpressApplication>(AppModule);
   }
+
   app.useGlobalFilters(new HttpExceptionFilter());
-  const document = yamljs.load(`${__dirname}/../doc/api.yaml`);
   SwaggerModule.setup('doc', app, document);
   await app.listen(PORT);
 }
-bootstrap().then(async () => {
-  await createUser();
-});
+
+bootstrap().then(async () => { await createAdmin(); });
