@@ -10,7 +10,6 @@ import {
   HttpStatus,
   NotFoundException,
   BadRequestException,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { UpdateBoardDto } from './dto/update-board.dto';
@@ -25,18 +24,17 @@ export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
   @Get()
-  @HttpCode(HttpStatus.OK)
   async findAll(): Promise<Board[]> {
     const boards = await this.boardsService.findAll();
     return boards;
   }
 
   @Get(':id')
-  async findOne(@Res() res, @Param('id') id: string): Promise<Board | void> {
+  async findOne(@Param('id') id: string): Promise<Board | void> {
     try {
       const board = await this.boardsService.findOne(id);
       if (board) {
-        res.status(HttpStatus.OK).json(board);
+        return board;
       } else {
         throw new NotFoundException();
       }
@@ -46,7 +44,6 @@ export class BoardsController {
   }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   async create(@Body() createBoardDto: CreateBoardDto): Promise<Board | void> {
     try {
       const board = await this.boardsService.create(createBoardDto);
@@ -57,7 +54,6 @@ export class BoardsController {
   }
 
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
   async update(
     @Param('id') id: string,
     @Body() updateBoardDto: UpdateBoardDto
@@ -74,8 +70,7 @@ export class BoardsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
     try {
-      await this.boardsService.remove(id);
-      return null;
+      await this.boardsService.remove(id);      
     } catch (error) {
       throw new NotFoundException();
     }

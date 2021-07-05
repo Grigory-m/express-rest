@@ -9,7 +9,6 @@ import {
 import { AppModule } from './app.module';
 import * as yamljs from 'yamljs';
 import { SwaggerModule } from '@nestjs/swagger';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
 import createAdmin from './common/create_user';
 import { MyLogger } from './logger/logger.service';
 
@@ -32,7 +31,6 @@ async function bootstrap() {
     });
   }
 
-  app.useGlobalFilters(new HttpExceptionFilter());
   SwaggerModule.setup('doc', app, document);
   await app.listen(PORT);
 }

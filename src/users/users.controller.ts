@@ -10,7 +10,6 @@ import {
   HttpStatus,
   NotFoundException,
   BadRequestException,
-  Response,
   UseGuards,
 } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -26,21 +25,17 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  @HttpCode(HttpStatus.OK)
   async findAll(): Promise<IUser[]> {
     const users = await this.usersService.findAll();
     return users.map(toResponse);
   }
 
   @Get(':id')
-  async findOne(
-    @Response() res,
-    @Param('id') id: string
-  ): Promise<IUser | void> {
+  async findOne(@Param('id') id: string): Promise<IUser | void> {
     try {
       const user = await this.usersService.findOne(id);
       if (user) {
-        res.status(HttpStatus.OK).json(toResponse(user));
+        return toResponse(user);
       }
     } catch (error) {
       throw new NotFoundException();
@@ -48,7 +43,6 @@ export class UsersController {
   }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUserDto: CreateUserDto): Promise<IUser | void> {
     try {
       const user = await this.usersService.create(createUserDto);
@@ -61,7 +55,6 @@ export class UsersController {
   }
 
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto
@@ -80,8 +73,7 @@ export class UsersController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
     try {
-      await this.usersService.remove(id);
-      return null;
+      await this.usersService.remove(id);      
     } catch (error) {
       throw new NotFoundException();
     }

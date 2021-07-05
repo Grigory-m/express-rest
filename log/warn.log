@@ -1,2 +1,0 @@
-{"message":"Unable to connect to the database. Retrying (1)..., Error: getaddrinfo ENOTFOUND postgres\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:67:26)","level":"error","timestamp":"2021-07-04T18:38:55.191Z"}
-{"message":"Unable to connect to the database. Retrying (2)..., Error: getaddrinfo ENOTFOUND postgres\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:67:26)","level":"error","timestamp":"2021-07-04T18:39:00.472Z"}

@@ -10,7 +10,6 @@ import {
   HttpStatus,
   NotFoundException,
   BadRequestException,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -24,19 +23,18 @@ export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Get()
-  @HttpCode(HttpStatus.OK)
   async findAll(@Param('boardId') boardId: string): Promise<Task[]> {
     const tasks = await this.tasksService.findAll(boardId);
     return tasks;
   }
 
   @Get(':id')
-  async findOne(@Res() res, @Param() params): Promise<Task | void> {
+  async findOne(@Param() params): Promise<Task | void> {
     try {
       const { boardId, id } = params;
       const task = await this.tasksService.findOne(boardId, id);
       if (task) {
-        res.status(HttpStatus.OK).json(task);
+        return task;
       } else {
         throw new NotFoundException();
       }
@@ -46,7 +44,6 @@ export class TasksController {
   }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   async create(
     @Param() params,
     @Body() createTaskDto: CreateTaskDto
@@ -61,7 +58,6 @@ export class TasksController {
   }
 
   @Put(':id')
-  @HttpCode(HttpStatus.OK)
   async update(
     @Param() params,
     @Body() updateTaskDto: UpdateTaskDto
@@ -76,11 +72,11 @@ export class TasksController {
   }
 
   @Delete(':id')
-  async remove(@Res() res, @Param() params) {
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param() params) {
     const { boardId, id } = params;
     try {
-      await this.tasksService.remove(boardId, id);
-      res.status(HttpStatus.NO_CONTENT).json(null);
+      await this.tasksService.remove(boardId, id);      
     } catch (error) {
       throw new NotFoundException();
     }
