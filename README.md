@@ -1,5 +1,28 @@
 # RS School REST service
 
+# Express
+---
+
+|              |                                  |                                         |
+|--------------|----------------------------------|-----------------------------------------|
+| Requests     | [total, rate, throughput]        | 100, 10.11, 10.11                       |
+| Duration     | [total, attack, wait]            | 10s, 10s, 1.8222ms                      |
+| Latencies    | [min, mean, 50, 90, 95, 99, max] | 21.1ms, 2.9ms, 91.7ms, 104.6ms, 109.7ms |
+| Success      | [ratio]                          | 100.00%                                 |
+| Status Codes | [code:count]                     | 200:60  201:20  204:20                  |
+
+
+# Fastify
+---
+
+|              |                                  |                                         |
+|--------------|----------------------------------|-----------------------------------------|
+| Requests     | [total, rate, throughput]        | 100, 10.11, 10.11                       |
+| Duration     | [total, attack, wait]            | 10s, 10s, 516.1µs                       |
+| Latencies    | [min, mean, 50, 90, 95, 99, max] | 29.6ms, 1.2ms, 95.2ms, 346.6ms, 394.7ms |
+| Success      | [ratio]                          | 100.00%                                 |
+| Status Codes | [code:count]                     | 200:60  201:20  204:20                  |
+
 ## Docker
 
 - run application with command: <kbd>docker-compose up</kbd> 
