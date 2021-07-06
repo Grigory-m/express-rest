@@ -11,6 +11,7 @@ import * as yamljs from 'yamljs';
 import { SwaggerModule } from '@nestjs/swagger';
 import createAdmin from './common/create_user';
 import { MyLogger } from './logger/logger.service';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 async function bootstrap() {
   const service = new ConfigService();
@@ -30,7 +31,7 @@ async function bootstrap() {
       logger: new MyLogger(),
     });
   }
-
+  app.useGlobalFilters(new HttpExceptionFilter());
   SwaggerModule.setup('doc', app, document);
   await app.listen(PORT);
 }
