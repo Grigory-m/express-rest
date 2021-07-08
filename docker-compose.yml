@@ -15,7 +15,7 @@ services:
       - /usr/app/node_modules  
   postgres:
     container_name: postgres
-    image: postgres:13.3
+    image: postgres:13.3-alpine
     networks: 
       - backend
     restart: always

@@ -5,11 +5,11 @@
 
 |              |                                  |                                         |
 |--------------|----------------------------------|-----------------------------------------|
-| Requests     | [total, rate, throughput]        | 100, 10.11, 10.11                       |
-| Duration     | [total, attack, wait]            | 10s, 10s, 1.8222ms                      |
-| Latencies    | [min, mean, 50, 90, 95, 99, max] | 21.1ms, 2.9ms, 91.7ms, 104.6ms, 109.7ms |
+| Requests     | [total, rate, throughput]        | 6000, 50.01, 49.99                      |
+| Duration     | [total, attack, wait]            | 2m, 2m, 54.862µs                        |
+| Latencies    | [min, mean, 50, 90, 95, 99, max] | 222.6ms, 63.3ms, 1.43s, 2.53s, 4.1s     |
 | Success      | [ratio]                          | 100.00%                                 |
-| Status Codes | [code:count]                     | 200:60  201:20  204:20                  |
+| Status Codes | [code:count]                     | 200:3600  201:1200  204:1200            |
 
 
 # Fastify
@@ -17,11 +17,11 @@
 
 |              |                                  |                                         |
 |--------------|----------------------------------|-----------------------------------------|
-| Requests     | [total, rate, throughput]        | 100, 10.11, 10.11                       |
-| Duration     | [total, attack, wait]            | 10s, 10s, 516.1µs                       |
-| Latencies    | [min, mean, 50, 90, 95, 99, max] | 29.6ms, 1.2ms, 95.2ms, 346.6ms, 394.7ms |
+| Requests     | [total, rate, throughput]        | 6000, 50.01, 49.97                      |
+| Duration     | [total, attack, wait]            | 2m, 2m, 95.158µs                        |
+| Latencies    | [min, mean, 50, 90, 95, 99, max] | 439.5ms, 88.9ms, 2.6s, 4.1s, 5.63s      |
 | Success      | [ratio]                          | 100.00%                                 |
-| Status Codes | [code:count]                     | 200:60  201:20  204:20                  |
+| Status Codes | [code:count]                     | 200:3600  201:1200  204:1200            |
 
 ## Docker
 
