@@ -76,7 +76,7 @@ export class TasksController {
   async remove(@Param() params) {
     const { boardId, id } = params;
     try {
-      await this.tasksService.remove(boardId, id);      
+      await this.tasksService.remove(boardId, id);
     } catch (error) {
       throw new NotFoundException();
     }

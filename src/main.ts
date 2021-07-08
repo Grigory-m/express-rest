@@ -13,6 +13,7 @@ import createAdmin from './common/create_user';
 import { MyLogger } from './logger/logger.service';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 
+
 async function bootstrap() {
   const service = new ConfigService();
   const fastify = service.get<string>('USE_FASTIFY');
@@ -33,7 +34,7 @@ async function bootstrap() {
   }
   app.useGlobalFilters(new HttpExceptionFilter());
   SwaggerModule.setup('doc', app, document);
-  await app.listen(PORT);
+  await app.listen(PORT, '::');
 }
 
 bootstrap().then(async () => {

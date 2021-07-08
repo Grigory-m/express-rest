@@ -73,7 +73,7 @@ export class UsersController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
     try {
-      await this.usersService.remove(id);      
+      await this.usersService.remove(id);
     } catch (error) {
       throw new NotFoundException();
     }

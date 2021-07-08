@@ -12,7 +12,7 @@ import configuration from './common/configuration';
     ConfigModule.forRoot(),
     AuthModule,
     TypeOrmModule.forRootAsync({
-      useFactory: configuration
+      useFactory: configuration,
     }),
     UsersModule,
     BoardsModule,

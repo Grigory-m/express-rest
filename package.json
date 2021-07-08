@@ -8,9 +8,11 @@
   "description": "REST service starter for RS School",
   "main": "src/server.ts",
   "scripts": {
-    "build": "tsc -w",
+    "build": "nest build",
+    "start": "nest start",
     "start:dev": "nest start --watch",
-    "start": "npm run migration:run && cross-env nodemon -L --exitcrash --watch './src/**/*.ts' --exec ts-node ./src/server.ts",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",

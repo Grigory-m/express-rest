@@ -70,7 +70,7 @@ export class BoardsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
     try {
-      await this.boardsService.remove(id);      
+      await this.boardsService.remove(id);
     } catch (error) {
       throw new NotFoundException();
     }
