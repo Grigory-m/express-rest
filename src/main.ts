@@ -13,7 +13,6 @@ import createAdmin from './common/create_user';
 import { MyLogger } from './logger/logger.service';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 
-
 async function bootstrap() {
   const service = new ConfigService();
   const fastify = service.get<string>('USE_FASTIFY');
@@ -24,15 +23,13 @@ async function bootstrap() {
   if (fastify !== 'false') {
     app = await NestFactory.create<NestFastifyApplication>(
       AppModule,
-      new FastifyAdapter(),
-      { logger: new MyLogger() }
+      new FastifyAdapter()
     );
   } else {
-    app = await NestFactory.create<NestExpressApplication>(AppModule, {
-      logger: new MyLogger(),
-    });
+    app = await NestFactory.create<NestExpressApplication>(AppModule);
   }
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useLogger(app.get(MyLogger));
   SwaggerModule.setup('doc', app, document);
   await app.listen(PORT, '::');
 }
