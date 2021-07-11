@@ -8,10 +8,10 @@ export default (): TypeOrmModuleOptions => ({
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
   entities: [`dist/**/*.entity{.ts,.js}`],
-  migrations: [`${__dirname}/**/migration/*{.ts,.js}`],
+  migrations: [`dist/migration/*{.ts,.js}`],
   cli: {
-    migrationsDir: `src/migration`,
+    migrationsDir: `dist/migration`
   },
-  synchronize: true,
-  migrationsRun: true,
+  synchronize: false,
+  migrationsRun: true
 });
